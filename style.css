@@ -1,0 +1,342 @@
+/* ====== Design tokens (Apple-like, minimal) ====== */
+:root{
+  --bg:#ffffff;
+  --ink:#4a4a4a;
+  --muted:#6a7a80;
+  --accent:#006666;
+  --white:#ffffff;
+  --ring: rgba(0,0,0,0.08);
+
+  --radius-lg:22px;
+  --radius:16px;
+  --radius-sm:10px;
+
+  --shadow: 0 10px 28px rgba(0,0,0,.12), 0 1px 0 rgba(255,255,255,.4) inset;
+  --glass: rgba(255,255,255,0.55);
+  --glass-brd: rgba(255,255,255,0.6);
+  --glass-dark: rgba(0,0,0,0.04);
+
+  --space-1:8px;
+  --space-2:12px;
+  --space-3:16px;
+  --space-4:20px;
+  --space-5:24px;
+  --space-6:28px;
+
+  /* Page sizing for preview */
+  --page-w: 8.5in;
+  --page-h: 11in;
+  --page-gap: 16px;
+}
+
+/* ====== Global ====== */
+* { box-sizing: border-box; }
+html, body { height:100%; }
+body{
+  margin:0;
+  font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+/* ====== Layout ====== */
+.shell{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: env(safe-area-inset-top) var(--space-4) var(--space-5);
+}
+
+.topbar{
+  position: sticky; top: 0; z-index: 40;
+  display:flex; gap: var(--space-2); align-items:center; justify-content: space-between;
+  padding: var(--space-2) var(--space-2);
+  margin: 0 calc(-1 * var(--space-4)) var(--space-3);
+  background: #ffffff;
+  border-bottom: 1px solid var(--glass-dark);
+}
+.brand{
+  display:flex; align-items:center; gap:10px;
+  font-weight: 600; letter-spacing: .2px;
+}
+.brand .dot{ width:12px; height:12px; border-radius:50%; background:var(--accent); box-shadow: 0 0 0 6px rgba(0,102,102,.08); }
+
+.grid{
+  display:grid; gap: var(--space-4);
+  grid-template-columns: 1.1fr 1fr;
+  align-items: start;
+}
+@media (max-width: 960px){
+  .grid{ grid-template-columns: 1fr; }
+}
+
+/* ====== Editor (liquid glass card) ====== */
+.editor{
+  background: var(--glass);
+  border: 1px solid var(--glass-brd);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  backdrop-filter: saturate(160%) blur(18px);
+  padding: var(--space-4);
+}
+.section{
+  border:1px solid var(--glass-dark);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  margin-bottom: var(--space-4);
+  background: linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.4));
+}
+.section h2{
+  margin:0 0 var(--space-2);
+  font-size: 16px; letter-spacing:.3px;
+}
+
+.row{ display:grid; gap: var(--space-2); grid-template-columns: 1fr 1fr; }
+.row-3{ display:grid; gap: var(--space-2); grid-template-columns: 1fr 1fr 1fr; }
+.row-1{ display:grid; gap: var(--space-2); grid-template-columns: 1fr; }
+
+@media (max-width: 720px){
+  .row, .row-3 { grid-template-columns: 1fr; }
+}
+
+label{
+  display:block; font-size: 12px; color: var(--muted); margin-bottom:6px;
+}
+input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea{
+  width:100%; padding: 12px 12px;
+  border:1px solid var(--glass-dark);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  outline: none;
+}
+input:focus, textarea:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+textarea{ min-height: 90px; resize: vertical; }
+
+.hint{ font-size:12px; color: var(--muted); margin-top:4px; }
+
+.btns{ display:flex; flex-wrap: wrap; gap:8px; margin-top: var(--space-2); }
+button, .ghost{
+  appearance: none; border:1px solid var(--glass-dark); background: var(--white);
+  padding: 10px 14px; border-radius: 12px; cursor:pointer;
+}
+.primary{
+  background: var(--accent); border-color: var(--accent);
+  color: #fff; font-weight: 600;
+}
+.quiet{ background: #fff; }
+.danger{ border-color:#b51e1e26; background:#fff; color:#b51e1e; }
+.file{ display:none; }
+
+.items{ display:flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.item{
+  padding: 10px; border:1px solid var(--glass-dark); border-radius: 10px; background:#fff;
+}
+.item .row{ grid-template-columns: 1fr 1fr; }
+.item-actions{ display:flex; gap:6px; margin-top:6px; }
+
+/* ====== Preview wrapper (sticky) ====== */
+.preview-panel{
+  position: sticky;
+  top: calc(56px + var(--space-2));
+  max-height: calc(100vh - 72px);
+  overflow: auto;
+  padding-right: 2px;
+}
+@media (max-width: 960px){
+  .preview-panel{
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+/* ====== Page preview (true paper size) ====== */
+.page-stack{
+  display: grid;
+  gap: var(--page-gap);
+  justify-items: center;
+}
+.page{
+  width: var(--page-w);
+  background:#fff;
+  border:1px solid var(--glass-dark);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  overflow: visible;
+  position: relative;
+  transform-origin: top left;
+}
+
+.page-inner{
+  padding: 0.7in 0.7in 0.8in;
+  color: #111;
+  font-size: 12pt;
+  line-height: 1.4;
+}
+
+/* preview-only page numbering (unused) */
+.page-footer{
+  position:absolute; bottom:10px; right:12px;
+  font-size:10pt; color:#666;
+}
+
+/* Resume typography inside pages */
+.r-name{ font-size: 22pt; font-weight: 700; letter-spacing:.2px; }
+.r-title{ color:#444; margin-top:2px; font-size: 12pt; }
+.r-contact{ margin-top:6px; color:#333; font-size: 10.5pt; }
+.r-contact a{ color:#111; text-decoration: none; }
+.r-section{ margin-top: 12pt; }
+.r-section h3{ margin:0 0 6pt; font-size: 12pt; }
+.r-bullets{ margin:6px 0 0 18px; }
+.r-bullets li{ margin: 2px 0; }
+
+/* —— Keep each subfield and each bullet intact —— */
+.r-item { break-inside: avoid; page-break-inside: avoid; }
+.r-bullets li { break-inside: avoid; page-break-inside: avoid; }
+
+/* —— Keep header with only the first subfield —— */
+.r-section > h3 {
+  break-after: avoid;            /* modern */
+  page-break-after: avoid;       /* legacy */
+}
+.r-section > h3 + .r-item {
+  break-inside: avoid;           /* ensure the pair doesn’t split internally */
+  page-break-inside: avoid;
+}
+
+.r-role{ font-weight:600; }
+.r-meta{ color:#444; }
+
+/* ====== Print: rely on dialog margins; reinforce break rules ====== */
+@media print{
+  body{ background:#fff; }
+  .topbar, .editor{ display:none !important; }
+  .preview-panel{ position: static; overflow: visible; max-height: none; }
+  .page{ width: auto; height: auto; border: none; box-shadow: none; transform: none !important; }
+  .page-inner{ padding: 0; font-size: 11pt; }
+
+  /* Reinforce header+first lock and subfield locks for print engines */
+  .r-section > h3 { break-after: avoid; page-break-after: avoid; }
+  .r-section > h3 + .r-item,
+  .r-item,
+  .r-bullets li { break-inside: avoid; page-break-inside: avoid; }
+
+  /* Ensure the preview stack doesn't center the sheet when printing */
+  .page-stack { justify-items: start !important; }
+
+  /* Reset any page centering/margins applied for screen preview */
+  .page { margin: 0 !important; box-shadow: none !important; }
+
+  /* Force left alignment for header and title in print */
+  .page-inner, .page-inner .r-name, .page-inner .r-title {
+    text-align: left !important;
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+/* Ensure left-aligned header and name (fixes centered name when short) */
+.page-inner { text-align: left; }
+.r-name, .r-title { display: block; text-align: left; width: 100%; }
+
+.preview-counter { 
+  display: none !important; 
+}
+
+/* ====== Enhancement: clearer inputs ====== */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+textarea {
+  border: 1px solid #006666 !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* ====== Dark Teal Background + iOS-like Section Cards ====== */
+
+/* Main background (editor + preview + body) */
+body,
+.editor,
+.preview-panel {
+  background: #006666 !important;
+}
+
+/* Each editor section in a beveled liquid glass card */
+.section {
+  background: rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 22px;
+  box-shadow: 
+    inset 0 1px 2px rgba(255,255,255,0.5),
+    inset 0 -1px 2px rgba(0,0,0,0.1),
+    0 8px 20px rgba(0,0,0,0.25);
+  backdrop-filter: saturate(160%) blur(20px);
+}
+
+/* ====== Visibility & Contrast Enhancements ====== */
+
+/* Make all UI texts (labels, section headers, hints) white */
+body,
+label,
+.section h2,
+.hint,
+.topbar,
+.brand {
+  color: #fafeff !important;
+}
+
+/* Keep inputs and textarea text dark for readability */
+input, textarea {
+  color: #4a4a4a !important;
+}
+
+/* Top header (sticky bar) */
+.topbar {
+  background: #fafeff !important;
+  color: #4a4a4a !important;
+  border-radius: 16px;
+  margin: 0 auto var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+/* Preview panel page styling */
+.page {
+  background: #fafeff !important;
+  color: #4a4a4a !important;
+  border-radius: 22px;
+  overflow: hidden;
+  /* note: radius is only for screen; print view ignores it */
+}
+
+/* Ensure print preview margins remain unaffected */
+@media print {
+  .page {
+    border-radius: 0 !important;
+    background: #fff !important;
+  }
+}
+/* ====== Final Layout & Branding Tweaks ====== */
+
+/* Push header down for gutter space */
+.topbar {
+  margin-top: 20px;   /* space from top edge */
+  margin-bottom: var(--space-4);
+}
+
+/* Brand: larger + teal */
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: #006666 !important;
+}
+/* ====== Ensure subfield texts in editor are dark ====== */
+.section h2,
+label,
+.hint {
+  color: #b0b0b0 !important;
+}

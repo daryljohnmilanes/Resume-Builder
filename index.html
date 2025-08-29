@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Resume Builder · Minimal & ATS-Friendly</title>
+<meta name="description" content="A minimal, ATS-friendly resume builder with local autosave. No sign-up, just export/import JSON and print to PDF." />
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="shell">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="brand">
+        <span class="dot" aria-hidden="true"></span>
+        Resume Builder
+      </div>
+      <div class="btns">
+        <button id="btnExport" class="quiet">Export JSON</button>
+        <label class="quiet" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;">
+          <input id="fileImport" class="file" type="file" accept="application/json" />
+          Import JSON
+        </label>
+        <button id="btnReset" class="danger">Reset</button>
+        <button id="btnPrint" class="primary">Print / Save PDF</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Editor -->
+      <div class="editor" id="editor">
+
+        <!-- Contact -->
+        <div class="section" id="sec-contact">
+          <h2>Contact</h2>
+          <div class="row">
+            <div>
+              <label>Full name</label>
+              <input type="text" id="fullName" placeholder="Your name" />
+            </div>
+            <div>
+              <label>Title</label>
+              <input type="text" id="title" placeholder="Product Manager, Software Engineer, etc." />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Email</label>
+              <input type="email" id="email" placeholder="you@email.com" />
+            </div>
+            <div>
+              <label>Phone</label>
+              <input type="tel" id="phone" placeholder="+63 9xx xxx xxxx" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Location</label>
+              <input type="text" id="location" placeholder="City, Country" />
+            </div>
+            <div>
+              <label>Website / LinkedIn</label>
+              <input type="url" id="link1" placeholder="https://…" />
+              <div class="hint">Add one main link for now (you can list more in Summary/Projects).</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="section" id="sec-summary">
+          <h2>Professional Summary</h2>
+          <div class="row-1">
+            <div>
+              <label>Short summary (2–4 lines)</label>
+              <textarea id="summary" placeholder="Brief profile focused on outcomes and strengths."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="section" id="sec-skills">
+          <h2>Skills</h2>
+          <div class="row-1">
+            <div>
+              <label>List skills (comma-separated)</label>
+              <input type="text" id="skills" placeholder="Python, Project Management, SQL, Stakeholder Communication" />
+              <div class="hint">Keep 8–14 skills, grouped by type if helpful.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="section" id="sec-experience">
+          <h2>Experience</h2>
+          <div class="items" id="expList"></div>
+          <div class="btns">
+            <button id="addExp" class="quiet">+ Add Role</button>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="section" id="sec-education">
+          <h2>Education</h2>
+          <div class="items" id="eduList"></div>
+          <div class="btns">
+            <button id="addEdu" class="quiet">+ Add Education</button>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="section" id="sec-projects">
+          <h2>Projects (Optional)</h2>
+          <div class="items" id="projList"></div>
+          <div class="btns">
+            <button id="addProj" class="quiet">+ Add Project</button>
+          </div>
+        </div>
+
+        <!-- Licenses -->
+        <div class="section" id="sec-licenses">
+          <h2>Licenses (Optional)</h2>
+          <div class="items" id="licList"></div>
+          <div class="btns">
+            <button id="addLic" class="quiet">+ Add License</button>
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="section" id="sec-certifications">
+          <h2>Certifications (Optional)</h2>
+          <div class="items" id="certList"></div>
+          <div class="btns">
+            <button id="addCert" class="quiet">+ Add Certification</button>
+          </div>
+        </div>
+
+        <!-- Awards -->
+        <div class="section" id="sec-awards">
+          <h2>Awards (Optional)</h2>
+          <div class="items" id="awardList"></div>
+          <div class="btns">
+            <button id="addAward" class="quiet">+ Add Award</button>
+          </div>
+        </div>
+
+        <!-- Published Research -->
+        <div class="section" id="sec-research">
+          <h2>Published Research (Optional)</h2>
+          <div class="items" id="resList"></div>
+          <div class="btns">
+            <button id="addRes" class="quiet">+ Add Publication</button>
+          </div>
+        </div>
+
+        <!-- Others (renameable) -->
+        <div class="section" id="sec-others">
+          <h2>Others (Optional)</h2>
+          <div class="row-1" style="margin-bottom:8px;">
+            <div>
+              <label>Section Title (rename "Others")</label>
+              <input type="text" id="otherTitle" placeholder="Others, Volunteer Work, Affiliations, Patents…" />
+            </div>
+          </div>
+          <div class="items" id="otherList"></div>
+          <div class="btns">
+            <button id="addOther" class="quiet">+ Add Entry</button>
+          </div>
+        </div>
+
+        <!-- References -->
+        <div class="section" id="sec-references">
+          <h2>References (Optional)</h2>
+          <div class="items" id="refList"></div>
+          <div class="btns">
+            <button id="addRef" class="quiet">+ Add Reference</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Sticky Preview -->
+      <div class="preview-panel">
+        <div class="page-stack" id="pageStack">
+          <!-- Pages injected here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>
